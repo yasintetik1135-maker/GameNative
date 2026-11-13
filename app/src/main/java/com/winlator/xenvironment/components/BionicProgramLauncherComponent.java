@@ -353,44 +353,6 @@ public class BionicProgramLauncherComponent extends GuestProgramLauncherComponen
         envVars.put("WINE_X11FORCEGLX", "1");
         envVars.put("WINE_GST_NO_GL", "1");
         envVars.put("SteamGameId", "0");
-        String xclipseProfile = "balanced";
-        boolean xclipseFastJit = true;
-        boolean xclipseLowAudio = true;
-        boolean xclipseThermalGuard = true;
-        boolean xclipseAutoRam = true;
-        float currentTempC = 35.0f;
-        try {
-            android.content.SharedPreferences xp = context.getSharedPreferences("xclipse_prefs", android.content.Context.MODE_PRIVATE);
-            xclipseProfile = xp.getString("xclipse_profile", "balanced");
-            xclipseFastJit = xp.getBoolean("xclipse_fast_jit", true);
-            xclipseLowAudio = xp.getBoolean("xclipse_low_latency_audio", true);
-            xclipseThermalGuard = xp.getBoolean("xclipse_thermal_guard", true);
-            xclipseAutoRam = xp.getBoolean("xclipse_auto_ram", true);
-            android.content.Intent bi = context.registerReceiver(null, new android.content.IntentFilter(android.content.Intent.ACTION_BATTERY_CHANGED));
-            if (bi != null) currentTempC = bi.getIntExtra(android.os.BatteryManager.EXTRA_TEMPERATURE, 350) / 10.0f;
-        } catch (Throwable ignored) {}
-        if (xclipseAutoRam) { System.gc(); Runtime.getRuntime().gc(); }
-        String vramCap = "max".equals(xclipseProfile) ? "3584" : ("eco".equals(xclipseProfile) ? "2048" : "3072");
-        String compilerThreads = "eco".equals(xclipseProfile) ? "2" : "4";
-        if (xclipseThermalGuard && currentTempC >= 43.0f) { vramCap = "2048"; compilerThreads = "2"; }
-        if (!envVars.has("DXVK_ENABLE_NVAPI")) envVars.put("DXVK_ENABLE_NVAPI", "0");
-        if (!envVars.has("DXVK_HIDE_NVIDIA_GPU")) envVars.put("DXVK_HIDE_NVIDIA_GPU", "1");
-        if (!envVars.has("DXVK_ASYNC")) envVars.put("DXVK_ASYNC", "1");
-        if (!envVars.has("DXVK_GPLASYNCCACHE")) envVars.put("DXVK_GPLASYNCCACHE", "1");
-        if (!envVars.has("DXVK_CONFIG")) envVars.put("DXVK_CONFIG", "dxgi.maxDeviceMemory = " + vramCap + "; d3d9.maxAvailableMemory = " + vramCap + "; dxvk.numCompilerThreads = " + compilerThreads + ";");
-        if (!envVars.has("VKD3D_CONFIG")) envVars.put("VKD3D_CONFIG", "no_upload_hvv");
-        if (!envVars.has("MESA_NO_ERROR")) envVars.put("MESA_NO_ERROR", "1");
-        if (!envVars.has("MESA_GL_VERSION_OVERRIDE")) envVars.put("MESA_GL_VERSION_OVERRIDE", "4.6");
-        if (!envVars.has("MESA_GLSL_VERSION_OVERRIDE")) envVars.put("MESA_GLSL_VERSION_OVERRIDE", "460");
-        if (!envVars.has("MESA_VK_WSI_PRESENT_MODE")) envVars.put("MESA_VK_WSI_PRESENT_MODE", "mailbox");
-        if (!envVars.has("WINEESYNC")) envVars.put("WINEESYNC", "1");
-        if (!envVars.has("WINEFSYNC")) envVars.put("WINEFSYNC", "1");
-        if (!envVars.has("STAGING_SHARED_MEMORY")) envVars.put("STAGING_SHARED_MEMORY", "1");
-        if (!envVars.has("WINE_LARGE_ADDRESS_AWARE")) envVars.put("WINE_LARGE_ADDRESS_AWARE", "1");
-        envVars.put("BOX64_DYNAREC_STRONGMEM", xclipseFastJit ? "0" : "1");
-        envVars.put("BOX64_DYNAREC_BIGBLOCK", xclipseFastJit ? "3" : "1");
-        envVars.put("FEX_MULTIBLOCK", "1");
-        envVars.put("PULSE_LATENCY_MSEC", xclipseLowAudio ? "60" : "120");
 
         String primaryDNS = "8.8.4.4";
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Service.CONNECTIVITY_SERVICE);
