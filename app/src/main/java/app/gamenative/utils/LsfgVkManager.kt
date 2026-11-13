@@ -145,7 +145,7 @@ object LsfgVkManager {
     /** Whether the user owns Lossless Scaling in their Steam library. */
     @JvmStatic
     fun ownsLosslessScaling(): Boolean =
-        SteamService.getAppInfoOf(LOSSLESS_SCALING_APP_ID) != null
+        isDllAvailable() || SteamService.getAppInfoOf(LOSSLESS_SCALING_APP_ID) != null
 
     /** Get the DLL path inside the container, or null if the copy doesn't exist. */
     @JvmStatic
@@ -164,7 +164,7 @@ object LsfgVkManager {
     /** Get the flow scale (0.25-1.0, default 0.80). */
     @JvmStatic
     fun flowScale(container: Container): Float =
-        container.getExtra(EXTRA_FLOW_SCALE, "0.80").toFloatOrNull()?.coerceIn(0.25f, 1.0f) ?: 0.80f
+        container.getExtra(EXTRA_FLOW_SCALE, "0.65").toFloatOrNull()?.coerceIn(0.25f, 1.0f) ?: 0.65f
 
     /** Get whether performance mode is enabled (default true). */
     fun performanceMode(container: Container): Boolean =
@@ -635,6 +635,13 @@ object LsfgVkManager {
      * without creating a container for the Lossless Scaling app.
      */
     private fun findSteamDll(): File? {
+        val localPaths = listOf(
+            File("/sdcard/Download/Lossless.dll"),
+            File("/sdcard/Download/LossLessCopy.dll"),
+            File("/storage/emulated/0/Download/Lossless.dll"),
+            File("/storage/emulated/0/Download/LossLessCopy.dll")
+        )
+        localPaths.firstOrNull { it.isFile && it.length() > 0L }?.let { return it }
         return findSteamDllDirect()
     }
 

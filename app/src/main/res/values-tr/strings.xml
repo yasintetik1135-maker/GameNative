@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">GameNative</string>
+    <string name="app_name">GameNative Xclipse</string>
     <string name="login_user">Kullanıcı girişi</string>
     <string name="login_2fa">İki adımlı doğrulama</string>
     <string name="home">Ana Sayfa</string>
@@ -1515,7 +1515,7 @@
     <string name="container_storage_location_external">Harici</string>
     <string name="container_storage_location_unknown">Bilinmeyen konum</string>
     <string name="container_storage_unknown_error">Bilinmeyen hata</string>
-    <string name="login_app_name">GameNative</string>
+    <string name="login_app_name">GameNative Xclipse</string>
     <string name="login_privacy_policy">Gizlilik ilkesi</string>
     <string name="login_welcome_back">Tekrar hoş geldiniz</string>
     <string name="login_subtitle">Steam kütüphanenize erişmek için oturum açın</string>
