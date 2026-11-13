@@ -547,7 +547,7 @@ private fun LibraryScreenContent(
 
     // Handle opening folder picker (with dialog check)
     val onAddCustomGameClick = {
-        if (BuildConfig.MODERN_ANDROID) {
+        if (false && BuildConfig.MODERN_ANDROID) {
             showModernImportDialog = true
         } else if (PrefManager.showAddCustomGameDialog) {
             showAddCustomGameDialog = true

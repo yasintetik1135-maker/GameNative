@@ -162,7 +162,15 @@ fun SettingsGroupInterface(
     var showAchievementNotifications by rememberSaveable { mutableStateOf(PrefManager.achievementShowNotification) }
     var playAchievementSound by rememberSaveable { mutableStateOf(PrefManager.achievementPlaySound) }
 
-    // Language selection dialog
+    // Yasin & Gemini Xclipse Edition Signature
+        SettingsMenuLink(
+            colors = settingsTileColorsAlt(),
+            title = { Text(text = "GameNative Xclipse Edition") },
+            subtitle = { Text(text = "Yasin & Gemini • Exynos 2400 / RDNA 3 • Direct Folder Mode") },
+            onClick = { },
+        )
+
+        // Language selection dialog
     var openLanguageDialog by rememberSaveable { mutableStateOf(false) }
     var showLanguageRestartDialog by rememberSaveable { mutableStateOf(false) }
     var pendingLanguageCode by rememberSaveable { mutableStateOf<String?>(null) }
