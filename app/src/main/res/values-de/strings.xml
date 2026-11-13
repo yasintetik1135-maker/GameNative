@@ -2121,7 +2121,7 @@
 
     <!-- LSFG-VK frame generation -->
     <string name="lsfg_tab_title">LSFG-VK</string>
-    <string name="lsfg_description">Zwischenbilder mit dem Vulkan-Layer von Lossless Scaling generieren. Funktioniert bekanntermaßen nur auf Adreno 6xx und neuer.</string>
+    <string name="lsfg_description">Zwischenbilder mit dem Vulkan-Layer von Lossless Scaling generieren. Funktioniert bekanntermaßen nur auf Exynos 2400 (Xclipse 940) / Adreno 6xx und neuer.</string>
     <string name="lsfg_enable">LSFG-VK Bildgenerierung aktivieren</string>
     <string name="lsfg_multiplier">Bildmultiplikator</string>
     <string name="lsfg_flow_scale">Flow-Skala</string>
@@ -2134,7 +2134,7 @@
     <string name="lsfg_backend_legacy">Legacy (Ebene)</string>
     <string name="lsfg_backend_native">Nativ (Renderer)</string>
     <string name="lsfg_not_supported">Bildgenerierung erfordert einen Bionic-Container</string>
-    <string name="lsfg_install_prompt">Lossless Scaling nicht installiert. Zum Installieren tippen. Funktioniert bekanntermaßen nur auf Adreno 6xx und neuer.</string>
+    <string name="lsfg_install_prompt">Lossless Scaling nicht installiert. Zum Installieren tippen. Funktioniert bekanntermaßen nur auf Exynos 2400 (Xclipse 940) / Adreno 6xx und neuer.</string>
     <string name="lsfg_not_in_library">Lossless Scaling ist nicht in deiner Steam-Bibliothek</string>
     <string name="lsfg_install_title">Lossless Scaling installieren?</string>
     <string name="lsfg_install_message">Dies lädt Lossless Scaling von Steam herunter, um Bildgenerierung zu aktivieren.</string>

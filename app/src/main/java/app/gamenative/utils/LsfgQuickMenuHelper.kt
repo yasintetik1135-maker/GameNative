@@ -13,7 +13,7 @@ object LsfgQuickMenuHelper {
     )
 
     fun isAvailable(container: Container): Boolean =
-        LsfgVkManager.isSupported(container) && LsfgVkManager.isArmed(container)
+        LsfgVkManager.isSupported(container) && LsfgVkManager.isDllAvailable()
 
     fun readSettings(container: Container): Settings = Settings(
         multiplier = LsfgVkManager.multiplier(container),
@@ -73,6 +73,7 @@ object LsfgQuickMenuHelper {
         container.putExtra(LsfgVkManager.EXTRA_MULTIPLIER, multiplier.toString())
         container.putExtra(LsfgVkManager.EXTRA_FLOW_SCALE, String.format(Locale.US, "%.2f", flowScale))
         container.putExtra(LsfgVkManager.EXTRA_PERFORMANCE_MODE, settings.performanceMode.toString())
+        container.putExtra(LsfgVkManager.EXTRA_ARMED, (settings.multiplier >= 2).toString())
         container.saveData()
 
         // The container's LSFG switch is the authority, not the multiplier. A

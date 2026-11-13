@@ -576,7 +576,7 @@ object LsfgVkManager {
         }
 
         val dllPath = containerDllPath(container)
-        val armed = parseBool(container.getExtra(EXTRA_ARMED, "false")) && dllPath != null
+        val armed = dllPath != null
 
         if (!armed) {
             // Remove the manifest so the Vulkan loader can't find the layer

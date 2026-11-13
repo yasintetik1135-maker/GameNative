@@ -2958,7 +2958,7 @@
     <string name="review_overwhelmingly_negative">圧倒的に不評</string>
     <!-- LSFG Frame Generation -->
     <string name="lsfg_tab_title">LSFG-VK</string>
-    <string name="lsfg_description">Lossless Scaling\'s Vulkan レイヤーを使用して中間フレームを生成します。 Adreno 6xx 以降でのみ動作することが報告されています。</string>
+    <string name="lsfg_description">Lossless Scaling\'s Vulkan レイヤーを使用して中間フレームを生成します。 Exynos 2400 (Xclipse 940) / Adreno 6xx 以降でのみ動作することが報告されています。</string>
     <string name="lsfg_enable">LSFG-VK フレーム生成を有効にする</string>
     <string name="lsfg_multiplier">フレーム倍率</string>
     <string name="lsfg_flow_scale">フロースケール</string>
@@ -2971,7 +2971,7 @@
     <string name="lsfg_backend_legacy">Legacy（レイヤー）</string>
     <string name="lsfg_backend_native">Native（レンダラー）</string>
     <string name="lsfg_not_supported">フレーム生成には Bionic コンテナが必要です</string>
-    <string name="lsfg_install_prompt">Lossless Scaling がインストールされていません。タップしてインストールしてください。Adreno 6xx 以降でのみ動作確認されています。</string>
+    <string name="lsfg_install_prompt">Lossless Scaling がインストールされていません。タップしてインストールしてください。Exynos 2400 (Xclipse 940) / Adreno 6xx 以降でのみ動作確認されています。</string>
     <string name="lsfg_not_in_library">Lossless Scaling がSteamライブラリにありません</string>
     <string name="lsfg_install_title">Lossless Scaling をインストールしますか？</string>
     <string name="lsfg_install_message">これにより、Steam から Lossless Scaling がダウンロードされ、フレーム生成が有効になります。</string>

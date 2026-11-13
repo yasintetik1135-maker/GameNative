@@ -162,13 +162,79 @@ fun SettingsGroupInterface(
     var showAchievementNotifications by rememberSaveable { mutableStateOf(PrefManager.achievementShowNotification) }
     var playAchievementSound by rememberSaveable { mutableStateOf(PrefManager.achievementPlaySound) }
 
-    // Yasin & Gemini Xclipse Edition Signature
+    // Yasin & Gemini Xclipse 940 Control Center
+        val xCtx = androidx.compose.ui.platform.LocalContext.current
+        var showXcDlg by rememberSaveable { mutableStateOf(false) }
+        var uiTick by rememberSaveable { mutableStateOf(0) }
+        var msgTxt by rememberSaveable { mutableStateOf("") }
+        val prefs = androidx.compose.runtime.remember { xCtx.getSharedPreferences("xclipse_prefs", android.content.Context.MODE_PRIVATE) }
+        var xcProf by rememberSaveable { mutableStateOf(prefs.getString("xclipse_profile", "balanced") ?: "balanced") }
+        var xcJit by rememberSaveable { mutableStateOf(prefs.getBoolean("xclipse_fast_jit", true)) }
+        var xcAud by rememberSaveable { mutableStateOf(prefs.getBoolean("xclipse_low_latency_audio", true)) }
+        var xcThm by rememberSaveable { mutableStateOf(prefs.getBoolean("xclipse_thermal_guard", true)) }
+        var xcRam by rememberSaveable { mutableStateOf(prefs.getBoolean("xclipse_auto_ram", true)) }
+        val pLabel = when (xcProf) { "max" -> "Max FPS / Cooler (3.5 GB)"; "eco" -> "Batarya & Isı (2.0 GB)"; else -> "Dengeli Xclipse 940 (3.0 GB)" }
         SettingsMenuLink(
             colors = settingsTileColorsAlt(),
-            title = { Text(text = "GameNative Xclipse Edition") },
-            subtitle = { Text(text = "Yasin & Gemini • Exynos 2400 / RDNA 3 • Direct Folder Mode") },
-            onClick = { },
+            title = { Text(text = "Xclipse 940 Control Center (Yasin & Gemini)") },
+            subtitle = { Text(text = "$pLabel • RAM, Termal & LSFG Kontrolü") },
+            onClick = { uiTick++; msgTxt = ""; showXcDlg = true },
         )
+        if (showXcDlg) {
+            val st = androidx.compose.runtime.remember(showXcDlg, uiTick) {
+                val am = xCtx.getSystemService(android.content.Context.ACTIVITY_SERVICE) as? android.app.ActivityManager
+                val mi = android.app.ActivityManager.MemoryInfo(); am?.getMemoryInfo(mi)
+                val bi = xCtx.registerReceiver(null, android.content.IntentFilter(android.content.Intent.ACTION_BATTERY_CHANGED))
+                val tc = (bi?.getIntExtra(android.os.BatteryManager.EXTRA_TEMPERATURE, 0) ?: 0) / 10f
+                val dll = java.io.File("/storage/emulated/0/Download").listFiles()?.firstOrNull {
+                    it.isFile && (it.name.equals("Lossless.dll", true) || it.name.equals("LossLessCopy.dll", true))
+                }?.name ?: ""
+                listOf("${mi.availMem / 1048576L}", "${mi.totalMem / 1048576L}", "$tc", dll)
+            }
+            androidx.compose.material3.AlertDialog(
+                onDismissRequest = { showXcDlg = false },
+                title = { Text(text = "Exynos 2400 / Xclipse 940 Kontrol") },
+                text = {
+                    Column(modifier = androidx.compose.foundation.verticalScroll(androidx.compose.foundation.rememberScrollState())) {
+                        Text(text = "Canlı: ${st[0]} MB Boş / ${st[1]} MB RAM • ${st[2]}°C", color = MaterialTheme.colorScheme.primary)
+                        Text(text = if (st[3].isNotEmpty()) "LSFG DLL: Hazır (${st[3]})" else "LSFG DLL: Download klasöründe yok", color = if (st[3].isNotEmpty()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error)
+                        if (msgTxt.isNotEmpty()) Text(text = msgTxt, color = MaterialTheme.colorScheme.primary)
+                        Spacer(modifier = Modifier.padding(top = 6.dp))
+                        Row {
+                            androidx.compose.material3.OutlinedButton(onClick = { System.gc(); Runtime.getRuntime().gc(); uiTick++; msgTxt = "RAM temizlendi." }) { Text("RAM Boşalt") }
+                            Spacer(modifier = Modifier.padding(start = 6.dp))
+                            androidx.compose.material3.OutlinedButton(onClick = {
+                                var c = 0; xCtx.cacheDir?.listFiles()?.forEach { if ((it.name.contains("shader", true) || it.name.contains("mesa", true)) && it.deleteRecursively()) c++ }
+                                msgTxt = "Shader sıfırlandı ($c)."
+                            }) { Text("Shader Sıfırla") }
+                        }
+                        Spacer(modifier = Modifier.padding(top = 8.dp))
+                        listOf(
+                            Triple("max", "Max FPS / Soğutucu", "MEMO CX26 • 3584 MB VRAM • 4 Thread"),
+                            Triple("balanced", "Dengeli Xclipse 940", "8 GB RAM Koruması • 3072 MB VRAM"),
+                            Triple("eco", "Batarya & Isı Tasarrufu", "Soğutucusuz • 2048 MB VRAM • 2 Thread")
+                        ).forEach { (k, l, d) ->
+                            Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                                androidx.compose.material3.RadioButton(selected = xcProf == k, onClick = { xcProf = k; prefs.edit().putString("xclipse_profile", k).apply() })
+                                Column { Text(l); Text(d, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                            }
+                        }
+                        listOf(
+                            Triple("Termal Kalkan (43°C)", xcThm) { v: Boolean -> xcThm = v; prefs.edit().putBoolean("xclipse_thermal_guard", v).apply() },
+                            Triple("Otomatik RAM Temizle", xcRam) { v: Boolean -> xcRam = v; prefs.edit().putBoolean("xclipse_auto_ram", v).apply() },
+                            Triple("Maksimum JIT (StrongMem=0)", xcJit) { v: Boolean -> xcJit = v; prefs.edit().putBoolean("xclipse_fast_jit", v).apply() },
+                            Triple("BT Düşük Ses Gecikmesi (60ms)", xcAud) { v: Boolean -> xcAud = v; prefs.edit().putBoolean("xclipse_low_latency_audio", v).apply() }
+                        ).forEach { (lbl, chk, fn) ->
+                            Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                                Text(lbl, modifier = Modifier.weight(1f))
+                                androidx.compose.material3.Switch(checked = chk, onCheckedChange = fn)
+                            }
+                        }
+                    }
+                },
+                confirmButton = { androidx.compose.material3.TextButton(onClick = { showXcDlg = false }) { Text("Tamam") } }
+            )
+        }
 
         // Language selection dialog
     var openLanguageDialog by rememberSaveable { mutableStateOf(false) }

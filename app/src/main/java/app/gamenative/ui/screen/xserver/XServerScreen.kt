@@ -892,7 +892,7 @@ fun XServerScreen(
         // Adaptive-cap steps route through the LSFG limiter; the X-server
         // limiters must stay at 0 under LSFG.
         PowerManager.fpsCapApplier = applier@{ capFps: Int ->
-            if (!isLsfgAvailable || lsfgMultiplier < 2) return@applier false
+            if (!isLsfgAvailable) return@applier false
             PowerManager.targetFps = capFps
             LsfgQuickMenuHelper.applyLiveFpsCap(container, capFps)
             ShmFramePacer.setFrameRateLimit(capFps)
@@ -3563,6 +3563,7 @@ private fun ScLiveEditorDialogs(
         }
     }
     if (sc.showRoot) {
+                val xHudCtx = androidx.compose.ui.platform.LocalContext.current
         // The hub items (label + the action that opens that sub-editor). Each opens its editor with returnToRoot=true
         // so B comes back here one level at a time. Rendered by [ScRootMenuDialog] so the hub shares the bindings
         // editor's look (gradient selection ring, purple selected text, oval Back chip) and its controller nav.
@@ -3573,7 +3574,7 @@ private fun ScLiveEditorDialogs(
             stringResource(R.string.sc_edit_keyboard) to { sc.showRoot = false; sc.returnToRoot = true; sc.showKeyboard = true },
         )
         app.gamenative.ui.component.dialog.ScRootMenuDialog(
-            title = stringResource(R.string.sc_edit_root),
+            title = run { val am = xHudCtx.getSystemService(android.content.Context.ACTIVITY_SERVICE) as? android.app.ActivityManager; val mi = android.app.ActivityManager.MemoryInfo(); am?.getMemoryInfo(mi); val bi = xHudCtx.registerReceiver(null, android.content.IntentFilter(android.content.Intent.ACTION_BATTERY_CHANGED)); val tc = (bi?.getIntExtra(android.os.BatteryManager.EXTRA_TEMPERATURE, 0) ?: 0) / 10f; "${xHudCtx.getString(R.string.sc_edit_root)} • ${mi.availMem / 1048576L}MB • ${tc}°C" },
             items = items,
             onBack = { sc.showRoot = false; onRootBack() },
         )

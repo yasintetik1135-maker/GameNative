@@ -2776,7 +2776,7 @@
     <string name="review_mostly_negative">Çoğunlukla olumsuz</string>
     <string name="review_overwhelmingly_negative">Ezici çoğunlukla olumsuz</string>
     <string name="lsfg_tab_title">LSFG-VK</string>
-    <string name="lsfg_description">Lossless Scaling’in Vulkan katmanıyla ara kareler üretir. Yalnızca Adreno 6xx ve üzerinde çalıştığı bilinir.</string>
+    <string name="lsfg_description">Lossless Scaling’in Vulkan katmanıyla ara kareler üretir. Yalnızca Exynos 2400 (Xclipse 940) / Adreno 6xx ve üzerinde çalıştığı bilinir.</string>
     <string name="lsfg_enable">LSFG-VK kare üretimini aç</string>
     <string name="lsfg_multiplier">Kare çarpanı</string>
     <string name="lsfg_flow_scale">Akış ölçeği</string>
@@ -2789,7 +2789,7 @@
     <string name="lsfg_backend_legacy">Eski (katman)</string>
     <string name="lsfg_backend_native">Yerel (oluşturucu)</string>
     <string name="lsfg_not_supported">Kare üretimi bir Bionic konteyner gerektirir</string>
-    <string name="lsfg_install_prompt">Lossless Scaling yüklü değil. Yüklemek için dokunun. Yalnızca Adreno 6xx ve üzerinde çalıştığı bilinir.</string>
+    <string name="lsfg_install_prompt">Lossless Scaling yüklü değil. Yüklemek için dokunun. Yalnızca Exynos 2400 (Xclipse 940) / Adreno 6xx ve üzerinde çalıştığı bilinir.</string>
     <string name="lsfg_not_in_library">Lossless Scaling Steam kütüphanenizde yok</string>
     <string name="lsfg_install_title">Lossless Scaling yüklensin mi?</string>
     <string name="lsfg_install_message">Kare üretimini açmak için Lossless Scaling Steam’den indirilecek.</string>
